@@ -1,11 +1,20 @@
-import React, { useState } from "react";
+import React, { useState, useEffect } from "react";
+import axios from "axios";
 
 const initialState = {
-  hits: [{ objectID: 1, url: "/link-1", title: "Link 1" }]
+  hits: []
 };
 
+function fetchData() {
+  return axios("https://hn.algolia.com/api/v1/search?query=redux");
+}
+
 function App() {
-  const [data] = useState(initialState);
+  const [data, setData] = useState(initialState);
+
+  useEffect(() => {
+    fetchData().then(result => setData(result.data));
+  }, []);
 
   return (
     <ul>

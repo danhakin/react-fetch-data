@@ -1,9 +1,12 @@
 import React, { Fragment, useState } from "react";
-import { useHackerNewsApi } from "./hooks/fetchData";
+import { useDataApi } from "./hooks/fetchData";
 
 function App() {
   const [query, setQuery] = useState("redux");
-  const [{ data, isLoading, isError }, doFetch] = useHackerNewsApi();
+  const [{ data, isLoading, isError }, doFetch] = useDataApi(
+    "https://hn.algolia.com/api/v1/search?query=redux",
+    { hits: [] }
+  );
 
   return (
     <Fragment>

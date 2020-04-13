@@ -1,37 +1,15 @@
-import React, { Fragment, useState, useEffect } from "react";
-import axios from "axios";
+import React, { Fragment, useState } from "react";
+import { useHackerNewsApi } from "./hooks/fetchData";
 
 function App() {
-  const [data, setData] = useState({ hits: [] });
   const [query, setQuery] = useState("redux");
-  const [searchUrl, setSearchUrl] = useState(
-    "https://hn.algolia.com/api/v1/search?query=redux"
-  );
-  const [isLoading, setIsLoading] = useState(false);
-  const [isError, setIsError] = useState(false);
-
-  useEffect(() => {
-    const fetchData = async () => {
-      setIsError(false);
-      setIsLoading(true);
-
-      try {
-        const result = await axios(searchUrl);
-        setData(result.data);
-      } catch (error) {
-        setIsError(error);
-      }
-
-      setIsLoading(false);
-    };
-    fetchData();
-  }, [searchUrl]);
+  const [{ data, isLoading, isError }, doFetch] = useHackerNewsApi();
 
   return (
     <Fragment>
       <form
         onSubmit={event => {
-          setSearchUrl(`https://hn.algolia.com/api/v1/search?query=${query}`);
+          doFetch(`https://hn.algolia.com/api/v1/search?query=${query}`);
           event.preventDefault();
         }}
       >

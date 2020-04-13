@@ -5,15 +5,17 @@ const initialState = {
   hits: []
 };
 
-function fetchData() {
-  return axios("https://hn.algolia.com/api/v1/search?query=redux");
-}
-
 function App() {
   const [data, setData] = useState(initialState);
 
   useEffect(() => {
-    fetchData().then(result => setData(result.data));
+    const fetchData = async () => {
+      const result = await axios(
+        "https://hn.algolia.com/api/v1/search?query=redux"
+      );
+      setData(result.data);
+    };
+    fetchData();
   }, []);
 
   return (

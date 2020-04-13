@@ -4,16 +4,17 @@ import axios from "axios";
 function App() {
   const [data, setData] = useState({ hits: [] });
   const [query, setQuery] = useState("redux");
+  const [search, setSearch] = useState("redux");
 
   useEffect(() => {
     const fetchData = async () => {
       const result = await axios(
-        `https://hn.algolia.com/api/v1/search?query=${query}`
+        `https://hn.algolia.com/api/v1/search?query=${search}`
       );
       setData(result.data);
     };
     fetchData();
-  }, [query]);
+  }, [search]);
 
   return (
     <Fragment>
@@ -22,6 +23,9 @@ function App() {
         value={query}
         onChange={event => setQuery(event.target.value)}
       />
+      <button type="button" onClick={() => setSearch(query)}>
+        Search
+      </button>
       <ul>
         <ul>
           {data.hits.map(item => (
